@@ -104,7 +104,7 @@ class model {
         } else {
             $sql = $this->update($array);
         }
-        /*
+        
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
@@ -116,20 +116,23 @@ class model {
     }
     
 
-    public function insert($columnString,$valueString) {
+    private function insert($columnString,$valueString) {
         $sql = 'INSERT into $tableName ('. $columnString .') VALUES ('. $valueString. ')</br>';
         return $sql;
     }
-    /*
+
     private function update($array) {
         foreach ($array as $key => $value) {
             
-            # code...
+            echo $key.' = '.$value;
         }
-        $sql = 'UPDATE'.$tableName. 'SET ('. C.') WHERE id = ('.$valueString. ')</br>';
+        $sql = 'UPDATE'.$tableName. 'SET ('. $key.' = '.$value.') WHERE id = ('.$this->id. ')</br>';
+       // print($sql);
         return $sql;
         echo 'I just updated record' . $this->id;
     }
+    /*
+
     public function delete() {
         $db = dbConn::getConnection();          
         $sql = "DELETE FROM ". $this -> tableName. " WHERE id =".$this->id; 
