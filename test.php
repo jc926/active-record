@@ -70,7 +70,7 @@ class collection {
     }
 }
 
-class A extends collection {
+class todos extends collection {
     protected static $modelName = 'todos';
 }
 class accounts extends collection {
@@ -90,16 +90,21 @@ class model {
     {   
         
         $array = get_object_vars($this);
+        //print_r($array);
         
         // $this->columnString = implode(',',$array);  another way to input 
 
         $columnString = implode(',', $array);
+        //print($columnString);
         $valueString = ":".implode(',:', $array);
+        //print($valueString);
+        
         if ($this->id = '') {
-            $sql = $this->insert();
+            $sql = $this->insert($columnString,$valueString);
         } else {
-            $sql = $this->update();
+            $sql = $this->update($array);
         }
+        /*
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
@@ -110,10 +115,12 @@ class model {
         echo 'I just saved record: ' . $this->id;
     }
     
-    private function insert($columnString,$valueString) {
+
+    public function insert($columnString,$valueString) {
         $sql = 'INSERT into $tableName ('. $columnString .') VALUES ('. $valueString. ')</br>';
         return $sql;
     }
+    /*
     private function update($array) {
         foreach ($array as $key => $value) {
             
@@ -122,7 +129,7 @@ class model {
         $sql = 'UPDATE'.$tableName. 'SET ('. C.') WHERE id = ('.$valueString. ')</br>';
         return $sql;
         echo 'I just updated record' . $this->id;
-    }/*
+    }
     public function delete() {
         $db = dbConn::getConnection();          
         $sql = "DELETE FROM ". $this -> tableName. " WHERE id =".$this->id; 
@@ -136,9 +143,9 @@ class model {
         $result = $statement->fetchAll();
         print_r($result);
         echo 'I just deleted record' . $this->id;
-   //     print(1);
-  //  	
-     //  }
+
+  	
+       }
      */
     }
 }
@@ -163,10 +170,17 @@ class B extends model {
 //$record->isdone = 0;
 
 //print_r($record);
-$test = new todos();
+$test = new B();
 $test->id = 1;
+$test->owneremail = 'jc134@njit.edu';
+$test->ownerid = 'jc1234';
+$test->createddate = '11/18';
+$test->duedate = '11/19';
+$test->message = 'so hard';
+$test->isdone = 3;
 //$test->message = 'I love you';
 //print_r($test);
-$test-> delete ();
+//$test-> delete ();
+$test-> save();
 
 ?>
