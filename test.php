@@ -70,7 +70,7 @@ class collection {
     }
 }
 
-class todos extends collection {
+class A extends collection {
     protected static $modelName = 'todos';
 }
 class accounts extends collection {
@@ -84,9 +84,17 @@ class accounts extends collection {
 
 
 class model {
-    protected $tableName;/*
+    protected $tableName;
+    //protected $columnString;
     public function save()
-    {
+    {   
+        
+        $array = get_object_vars($this);
+        
+        // $this->columnString = implode(',',$array);  another way to input 
+
+        $columnString = implode(',', $array);
+        $valueString = ":".implode(',:', $array);
         if ($this->id = '') {
             $sql = $this->insert();
         } else {
@@ -95,38 +103,47 @@ class model {
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
-        $tableName = get_called_class();
-        $array = get_object_vars($this);
-        $columnString = implode(',', $array);
-        $valueString = ":".implode(',:', $array);
+        $this->tableName;
+        
+
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
         echo 'I just saved record: ' . $this->id;
     }
     
-   /* private function insert() {
+    private function insert($columnString,$valueString) {
         $sql = 'INSERT into $tableName ('. $columnString .') VALUES ('. $valueString. ')</br>';
         return $sql;
     }
-    private function update() {
-        $sql = 'UPDATE'.$tableName. 'SET ('.$columnString.') WHERE id = ('.$valueString. ')</br>';
+    private function update($array) {
+        foreach ($array as $key => $value) {
+            
+            # code...
+        }
+        $sql = 'UPDATE'.$tableName. 'SET ('. C.') WHERE id = ('.$valueString. ')</br>';
         return $sql;
         echo 'I just updated record' . $this->id;
-   */
+    }/*
     public function delete() {
         $db = dbConn::getConnection();          
-        $sql = 'DELETE FROM'. $this -> tableName. 'WHERE id ='.$this->id;
-       
+        $sql = "DELETE FROM ". $this -> tableName. " WHERE id =".$this->id; 
+        //print($sql);
+        $tableName = get_called_class();
         $statement = $db->prepare($sql);
         $statement ->execute();
+       
+        //$array = get_object_vars($this);
+        //print_r($array);
         $result = $statement->fetchAll();
+        print_r($result);
         echo 'I just deleted record' . $this->id;
    //     print(1);
   //  	
      //  }
+     */
     }
 }
 
-class todos extends model {
+class B extends model {
     public $id;
     public $owneremail;
     public $ownerid;
@@ -147,8 +164,9 @@ class todos extends model {
 
 //print_r($record);
 $test = new todos();
-
-$test->delete();
-
+$test->id = 1;
+//$test->message = 'I love you';
+//print_r($test);
+$test-> delete ();
 
 ?>
