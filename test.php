@@ -71,10 +71,10 @@ class collection {
 }
 
 class todos extends collection {
-    protected static $modelName = 'todos';
+    protected static $modelName = 'todo';
 }
 class accounts extends collection {
-    protected static $modelName = 'accounts';
+    protected static $modelName = 'account';
  }
 
  //$test = todos::findAll();
@@ -107,12 +107,13 @@ class model {
             $sql = $this->update($array);
         }
         //print($sql);
-        /*
+        
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
-        $this->tableName;
-        */
+        $tableName = get_called_class();
+        //$this->tableName;
+        
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
         echo 'I just saved record: ' . $this->id;
@@ -128,14 +129,15 @@ class model {
     private function update($array) {
         $temp = '';
         $sql = 'UPDATE '.$this->tableName. ' SET ';
-        /*foreach($array as $key=>$value){
+        foreach($array as $key=>$value){
             if(! empty($value)){
                 $sql.=",". $key . '="'.$value. '"';
 
             }
         }
         $sql .= ' WHERE id= '.$this->id;
-        print($sql);*/
+        print($sql);
+        /*
         foreach ($array as $key => $value) {
             if($key=='id'){
                 $sql=$temp.=$key.'= "'.$value.'"';
@@ -151,6 +153,7 @@ class model {
         //print($sql);
         return $sql;
         echo 'I just updated record' . $this->id;
+        */
        
     }
     /*
@@ -171,11 +174,12 @@ class model {
 
   	
        }
-     */
+     
     }
+    */
 }
 
-class B extends model {
+class todo extends model {
     public $id;
     public $owneremail;
     public $ownerid;
@@ -195,8 +199,8 @@ class B extends model {
 //$record->isdone = 0;
 
 //print_r($record);
-$test = new B();
-$test->id = '3';
+$test = new todo();
+$test->id = '7';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
