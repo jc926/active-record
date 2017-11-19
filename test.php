@@ -99,7 +99,7 @@ class model {
         $valueString = ":".implode(',:', $array);
         //print($valueString);
         
-        if ($this->id = '') {
+        if (empty（$this->id)) {
             $sql = $this->insert($columnString,$valueString);
         } else {
             $sql = $this->update($array);
@@ -117,16 +117,22 @@ class model {
     
 
     private function insert($columnString,$valueString) {
-        $sql = 'INSERT into $tableName ('. $columnString .') VALUES ('. $valueString. ')</br>';
+        $sql = 'INSERT into'. $this->tableName.'('. $columnString .') VALUES ('. $valueString. ')</br>';
         return $sql;
     }
 
     private function update($array) {
+        $temp = '';
         foreach ($array as $key => $value) {
+            if($key=='id'){
+                $temp.=$key.'='.$value;
+
+            }else{
+                $temp.=','.$key.'='.$vlaue;
+            }
             
-            echo $key.' = '.$value;
         }
-        $sql = 'UPDATE'.$tableName. 'SET ('. $key.' = '.$value.') WHERE id = ('.$this->id. ')</br>';
+        $sql = 'UPDATE'.$this->tableName. 'SET ('. $temp .') WHERE id = ('.$this->id. ')</br>';
        // print($sql);
         return $sql;
         echo 'I just updated record' . $this->id;
@@ -174,7 +180,7 @@ class B extends model {
 
 //print_r($record);
 $test = new B();
-$test->id = 1;
+//$test->id = '';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
