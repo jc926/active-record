@@ -90,17 +90,17 @@ class model {
     {   
         
         $array = get_object_vars($this);
-        print_r($array);
-        print_r(array_flip($array));
-        // $this->columnString = implode(',',$array);  another way to input 
+        //print_r($array);
+        //print_r(array_flip($array));
+        // $this->columnString = implode(',',$array);  //another way to input 
 
         $columnString = implode(',', $array);
-        $columnString2 = implode(',', array_flip($array));
+       // $columnString2 = implode(',', array_flip($array)); //try professor's code
         //print($columnString);
         //print($columnString2);
         $valueString = ":".implode(',:', $array);
         //print($valueString);
-        /*
+        
         if ($this->id = '') {
             $sql = $this->insert($columnString,$valueString);
         } else {
@@ -112,7 +112,7 @@ class model {
         $statement = $db->prepare($sql);
         $statement->execute();
         $this->tableName;
-        
+        */
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
         echo 'I just saved record: ' . $this->id;
@@ -127,17 +127,26 @@ class model {
     
     private function update($array) {
         $temp = '';
-        foreach ($array as $key => $value) {
+        $sql = 'UPDATE'.$this->tableName. 'SET';
+        foreach($array as $key=>$value){
+            if(! empty($value)){
+                $sql.=$temp . $key . '="'.$value. '"';
+                $temp = ",";
+            }
+        }
+        $sql .= 'WHERE id='.$this->id;
+        print($sql);
+        /*foreach ($array as $key => $value) {
             if($key=='id'){
-                $temp.=$key.'='.$value;
+                $temp.=$key.'= "'.$value.'"';
 
             }else{
-                $temp.=','.$key.'='.$vlaue;
+                $temp.=','.$key.'="'.$vlaue.'"';
             }
             
         }
-        $sql = 'UPDATE'.$this->tableName. 'SET ('. $temp .') WHERE id = ('.$this->id;
-        print($sql);
+        //$sql = 'UPDATE'.$this->tableName. 'SET'. $temp .' WHERE id = '.$this->id; //has a problem
+        //print($sql);
         return $sql;
         echo 'I just updated record' . $this->id;
        
