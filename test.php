@@ -36,7 +36,7 @@ class dbConn{
 
     }
 }
-/*
+
 class collection {
     static public function create() {
       $model = new static::$modelName;
@@ -80,7 +80,7 @@ class accounts extends collection {
  //$test = todos::findAll();
  //print_r($test);
  //$test1 = todos:: findOne(3);
-*/
+
 
 
 class model {
@@ -90,8 +90,9 @@ class model {
     {   
         
         $array = get_object_vars($this);
-        //print_r($array);
-        //print_r(array_flip($array));
+        print_r($array);
+        echo"<br><br>";
+        print_r(array_flip($array));
         // $this->columnString = implode(',',$array);  //another way to input 
 
         $columnString = implode(',', $array);
@@ -111,8 +112,8 @@ class model {
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
-        $tableName = get_called_class();
-        //$this->tableName;
+        //$tableName = get_called_class();
+        $this->tableName;
         
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
@@ -127,11 +128,13 @@ class model {
     }
     
     private function update($array) {
+       
         $temp = '';
         $sql = 'UPDATE '.$this->tableName. ' SET ';
         foreach($array as $key=>$value){
             if(! empty($value)){
-                $sql.=",". $key . '="'.$value. '"';
+                $sql.="$temp". $key . '="'.$value. '"';
+                $temp =", ";
 
             }
         }
@@ -150,10 +153,10 @@ class model {
         $sql .= ' WHERE id= '.$this->id;
         print($sql);
         //$sql = 'UPDATE'.$this->tableName. 'SET'. $temp .' WHERE id = '.$this->id; //has a problem
-        //print($sql);
+        //print($sql);*/
         return $sql;
         echo 'I just updated record' . $this->id;
-        */
+        
        
     }
     /*
