@@ -90,22 +90,24 @@ class model {
     {   
         
         $array = get_object_vars($this);
-        //print_r($array);
-        
+        print_r($array);
+        print_r(array_flip($array));
         // $this->columnString = implode(',',$array);  another way to input 
 
         $columnString = implode(',', $array);
+        $columnString2 = implode(',', array_flip($array));
         //print($columnString);
+        //print($columnString2);
         $valueString = ":".implode(',:', $array);
         //print($valueString);
-        
+        /*
         if ($this->id = '') {
             $sql = $this->insert($columnString,$valueString);
         } else {
             $sql = $this->update($array);
         }
         //print($sql);
-    
+        /*
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
@@ -114,11 +116,12 @@ class model {
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
         echo 'I just saved record: ' . $this->id;
+        
     }
-    
+      
     
     private function insert($columnString,$valueString) {
-        $sql = 'INSERT into'. $this->tableName.'('. $columnString .') VALUES ('. $valueString. ')</br>';
+        $sql = 'INSERT into'. $this->tableName.'('. $columnString .') VALUES ('. $valueString. ')';
         return $sql;
     }
     
@@ -137,6 +140,7 @@ class model {
         print($sql);
         return $sql;
         echo 'I just updated record' . $this->id;
+       
     }
     /*
 
