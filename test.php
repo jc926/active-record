@@ -97,13 +97,14 @@ class model {
         $columnString = implode(',', $array);
         //print($columnString);
         $valueString = ":".implode(',:', $array);
-        print($valueString);
+        //print($valueString);
         
         if ($this->id = '') {
             $sql = $this->insert($columnString,$valueString);
         } else {
             $sql = $this->update($array);
         }
+        //print($sql);
     
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
@@ -115,12 +116,12 @@ class model {
         echo 'I just saved record: ' . $this->id;
     }
     
-    /*
+    
     private function insert($columnString,$valueString) {
         $sql = 'INSERT into'. $this->tableName.'('. $columnString .') VALUES ('. $valueString. ')</br>';
         return $sql;
     }
-    */
+    
     private function update($array) {
         $temp = '';
         foreach ($array as $key => $value) {
@@ -132,7 +133,7 @@ class model {
             }
             
         }
-        $sql = 'UPDATE'.$this->tableName. 'SET ('. $temp .') WHERE id = ('.$this->id. ')</br>';
+        $sql = 'UPDATE'.$this->tableName. 'SET ('. $temp .') WHERE id = ('.$this->id;
         print($sql);
         return $sql;
         echo 'I just updated record' . $this->id;
