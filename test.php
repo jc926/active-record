@@ -127,24 +127,26 @@ class model {
     
     private function update($array) {
         $temp = '';
-        $sql = 'UPDATE'.$this->tableName. 'SET';
-        foreach($array as $key=>$value){
+        $sql = 'UPDATE '.$this->tableName. ' SET ';
+        /*foreach($array as $key=>$value){
             if(! empty($value)){
-                $sql.=$temp . $key . '="'.$value. '"';
-                $temp = ",";
+                $sql.=",". $key . '="'.$value. '"';
+
             }
         }
-        $sql .= 'WHERE id='.$this->id;
-        print($sql);
-        /*foreach ($array as $key => $value) {
+        $sql .= ' WHERE id= '.$this->id;
+        print($sql);*/
+        foreach ($array as $key => $value) {
             if($key=='id'){
-                $temp.=$key.'= "'.$value.'"';
+                $sql=$temp.=$key.'= "'.$value.'"';
 
             }else{
-                $temp.=','.$key.'="'.$vlaue.'"';
+                $sql=$temp.=','.$key.'="'.$vlaue.'"';
             }
             
         }
+        $sql .= ' WHERE id= '.$this->id;
+        print($sql);
         //$sql = 'UPDATE'.$this->tableName. 'SET'. $temp .' WHERE id = '.$this->id; //has a problem
         //print($sql);
         return $sql;
@@ -194,7 +196,7 @@ class B extends model {
 
 //print_r($record);
 $test = new B();
-//$test->id = '';
+$test->id = '3';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
