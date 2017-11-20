@@ -37,7 +37,7 @@ class dbConn{
     }
 }
 
-class collection {
+Abstract class collection {
     static public function create() {
       $model = new static::$modelName;
       return $model;
@@ -83,8 +83,8 @@ class accounts extends collection {
 
 
 
-class model {
-    protected $tableName;
+Abstract class model {
+    //protected $tableName;
     //protected $columnString;
     public function save()
     {   
@@ -92,29 +92,38 @@ class model {
         $array = get_object_vars($this);
         print_r($array);
         echo"<br><br>";
-        print_r(array_flip($array));
+       // print_r(array_flip($array));
+        echo"<br><br>";
         // $this->columnString = implode(',',$array);  //another way to input 
 
         $columnString = implode(',', $array);
-       // $columnString2 = implode(',', array_flip($array)); //try professor's code
-        //print($columnString);
+        //$columnString2 = implode(',', array_flip($array)); //try professor's code
+        print($columnString);
+        echo"<br><br>";
         //print($columnString2);
+        //echo"<br><br>";
         $valueString = ":".implode(',:', $array);
-        //print($valueString);
-        
-        if ($this->id = '') {
-            $sql = $this->insert($columnString,$valueString);
-        } else {
+        //$valueString2 = ':'.implode(',:', array_flip($array)); 
+        print($valueString);
+        echo"<br><br>";
+        //print($valueString2);
+        //echo"<br><br>";
+
+        if ($this->id != '') {
             $sql = $this->update($array);
+        } else {
+            
+            $sql = $this->insert($columnString,$valueString);
         }
         //print($sql);
-        
+        /*
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
+        //$id = $db->lastInsertId();
         //$tableName = get_called_class();
         $this->tableName;
-        
+        */
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
         echo 'I just saved record: ' . $this->id;
@@ -124,11 +133,12 @@ class model {
     
     private function insert($columnString,$valueString) {
         $sql = 'INSERT into'. $this->tableName.'('. $columnString .') VALUES ('. $valueString. ')';
+
         return $sql;
     }
     
     private function update($array) {
-       
+    
         $temp = '';
         $sql = 'UPDATE '.$this->tableName. ' SET ';
         foreach($array as $key=>$value){
@@ -159,7 +169,7 @@ class model {
         
        
     }
-    /*
+    
 
     public function delete() {
         $db = dbConn::getConnection();          
@@ -176,10 +186,23 @@ class model {
         echo 'I just deleted record' . $this->id;
 
   	
-       }
+       
      
     }
-    */
+
+}
+class account extends model{
+    public $id;
+    public $email;
+    public $fname;
+    public $lname;
+    public $phone;
+    public $birthday;
+    public $gender;
+    public $password;
+    public function __construct(){
+        $this->tableName = 'accounts';
+    }
 }
 
 class todo extends model {
@@ -190,11 +213,17 @@ class todo extends model {
     public $duedate;
     public $message;
     public $isdone;
+    protected static $modelName = 'todo';
+    public static function get_table(){
+        $tableName = 'todos';
+        return $tableName;
+    }
+    /*
     public function __construct()
     {
         $this->tableName = 'todos';
 	
-    }
+    }*/
 }
 
 //$record = new todos();
