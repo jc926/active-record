@@ -91,29 +91,29 @@ Abstract class model {
         
         $array = get_object_vars($this);
         print_r($array);
-        echo"<br><br>";
+        //echo"<br><br>";
        // print_r(array_flip($array));
-        echo"<br><br>";
+        //echo"<br><br>";
         // $this->columnString = implode(',',$array);  //another way to input 
 
-        $columnString = implode(',', $array);
+        //$columnString = implode(',', $array);
         //$columnString2 = implode(',', array_flip($array)); //try professor's code
-        print($columnString);
-        echo"<br><br>";
+        //print($columnString);
+        //echo"<br><br>";
         //print($columnString2);
         //echo"<br><br>";
-        $valueString = ":".implode(',:', $array);
+        //$valueString = ":".implode(',:', $array);
         //$valueString2 = ':'.implode(',:', array_flip($array)); 
-        print($valueString);
-        echo"<br><br>";
+        //print($valueString);
+        //echo"<br><br>";
         //print($valueString2);
         //echo"<br><br>";
-
+       
         if ($this->id != '') {
-            $sql = $this->update($array);
+            $sql = $this->update();
         } else {
             
-            $sql = $this->insert($columnString,$valueString);
+            $sql = $this->insert();
         }
         //print($sql);
         
@@ -122,7 +122,7 @@ Abstract class model {
         $statement->execute();
         //$id = $db->lastInsertId();
         //$tableName = get_called_class();
-        $this->tableName;
+        //$this->tableName;
         
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
@@ -153,10 +153,10 @@ Abstract class model {
     
     private function update() {
         $modelName=static::$modelName;
-        $tableName = $modelName::tabe();
-
+        $tableName = $modelName::table();
+        $array = get_object_vars($this);
         $temp = '';
-        $sql = 'UPDATE '.$this->tableName. ' SET ';
+        $sql = 'UPDATE '.$tableName. ' SET ';
         foreach($array as $key=>$value){
             if(! empty($value)){
                 $sql.="$temp". $key . '="'.$value. '"';
@@ -253,20 +253,20 @@ class todo extends model {
 //print_r($record);
 
 $test = new todo();
-/*
-$test->id = '2';
+
+$test->id = '8';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
 $test->duedate = '11/19';
 $test->message = 'so hard';
 $test->isdone = 3;
-*/
+
 //$test->message = 'I love you';
 //print_r($test);
-$test->id = '8';
-$test-> delete ();
+//$test->id = '8';
+//$test-> delete ();
 
-//$test-> save();
+$test-> save();
 
 ?>
