@@ -132,9 +132,25 @@ Abstract class model {
       
     
     private function insert($columnString,$valueString) {
-        $sql = 'INSERT into'. $this->tableName.'('. $columnString .') VALUES ('. $valueString. ')';
 
-        return $sql;
+        $modelName=static::$modelName;
+        $tableName = $modelName::table();
+        $array = get_object_vars($this);
+        $columnString = implode(',', $array);
+        //$columnString2 = implode(',', array_flip($array)); //try professor's code
+        print($columnString);
+        echo"<br><br>";
+        //print($columnString2);
+        //echo"<br><br>";
+        $valueString = ":".implode(',:', $array);
+        //$valueString2 = ':'.implode(',:', array_flip($array)); 
+        print($valueString);
+        echo"<br><br>";
+        $sql = 'INSERT into'. $tableName.'('. $columnString .') VALUES ('. $valueString. ')';
+
+        //return $sql;
+        echo 'I just inserted record' . $this->id;
+        
     }
     
     private function update($array) {
@@ -173,7 +189,7 @@ Abstract class model {
 
     public function delete() {
         $db = dbConn::getConnection();          
-        $sql = "DELETE FROM ". $this -> tableName. " WHERE id =".$this->id; 
+        $sql = "DELETE FROM ". $this ->tableName. " WHERE id =".$this->id; 
         //print($sql);
         $tableName = get_called_class();
         $statement = $db->prepare($sql);
@@ -214,7 +230,7 @@ class todo extends model {
     public $message;
     public $isdone;
     protected static $modelName = 'todo';
-    public static function get_table(){
+    public static function table(){
         $tableName = 'todos';
         return $tableName;
     }
@@ -232,7 +248,7 @@ class todo extends model {
 
 //print_r($record);
 $test = new todo();
-$test->id = '7';
+$test->id = '';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
