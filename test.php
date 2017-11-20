@@ -116,14 +116,14 @@ Abstract class model {
             $sql = $this->insert($columnString,$valueString);
         }
         //print($sql);
-        /*
+        
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
         //$id = $db->lastInsertId();
         //$tableName = get_called_class();
         $this->tableName;
-        */
+        
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
         echo 'I just saved record: ' . $this->id;
@@ -131,23 +131,21 @@ Abstract class model {
     }
       
     
-    private function insert($columnString,$valueString) {
+    private function insert($columnString2,$valueString) {
 
         $modelName=static::$modelName;
         $tableName = $modelName::table();
         $array = get_object_vars($this);
-        $columnString = implode(',', $array);
-        //$columnString2 = implode(',', array_flip($array)); //try professor's code
-        print($columnString);
-        echo"<br><br>";
-        //print($columnString2);
-        //echo"<br><br>";
-        $valueString = ":".implode(',:', $array);
-        //$valueString2 = ':'.implode(',:', array_flip($array)); 
+      
+        //$columnString = implode(',', $array);
+        $columnString2 = implode(',', array_keys($array)); 
+        print($columnString2);
+        $valueString = implode(',', array_values($array));
+    
         print($valueString);
         echo"<br><br>";
-        $sql = 'INSERT into'. $tableName.'('. $columnString .') VALUES ('. $valueString. ')';
-
+        $sql = "INSERT INTO ". $tableName. " (" . $columnString2 . ") VALUES (" . $valueString.")";
+        print($sql);
         //return $sql;
         echo 'I just inserted record' . $this->id;
         
@@ -189,7 +187,7 @@ Abstract class model {
 
     public function delete() {
         $db = dbConn::getConnection();          
-        $sql = "DELETE FROM ". $this ->tableName. " WHERE id =".$this->id; 
+        $sql = "DELETE FROM ". $tableName. " WHERE id =".$this->id; 
         //print($sql);
         $tableName = get_called_class();
         $statement = $db->prepare($sql);
@@ -248,7 +246,7 @@ class todo extends model {
 
 //print_r($record);
 $test = new todo();
-$test->id = '';
+$test->id = '2';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
