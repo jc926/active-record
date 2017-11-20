@@ -131,7 +131,7 @@ Abstract class model {
     }
       
     
-    private function insert($columnString2,$valueString) {
+    private function insert() {
 
         $modelName=static::$modelName;
         $tableName = $modelName::table();
@@ -151,8 +151,10 @@ Abstract class model {
         
     }
     
-    private function update($array) {
-    
+    private function update() {
+        $modelName=static::$modelName;
+        $tableName = $modelName::tabe();
+
         $temp = '';
         $sql = 'UPDATE '.$this->tableName. ' SET ';
         foreach($array as $key=>$value){
@@ -185,18 +187,20 @@ Abstract class model {
     }
     
 
-    public function delete() {
-        $db = dbConn::getConnection();          
+    public function delete() 
+    {
+        $db = dbConn::getConnection(); 
+        $modelName=static::$modelName;
+        $tableName = $modelName::table();
         $sql = "DELETE FROM ". $tableName. " WHERE id =".$this->id; 
-        //print($sql);
-        $tableName = get_called_class();
+        print($sql);
+        //$tableName=get_called_class();
         $statement = $db->prepare($sql);
         $statement ->execute();
-       
         //$array = get_object_vars($this);
         //print_r($array);
-        $result = $statement->fetchAll();
-        print_r($result);
+        //$result = $statement->fetchAll();
+        //print_r($result);
         echo 'I just deleted record' . $this->id;
 
   	
@@ -214,8 +218,10 @@ class account extends model{
     public $birthday;
     public $gender;
     public $password;
-    public function __construct(){
-        $this->tableName = 'accounts';
+    protected static $modelName = 'account';
+    public static function table(){
+        $tableName = 'accounts';
+        return $tableName;
     }
 }
 
@@ -245,7 +251,9 @@ class todo extends model {
 //$record->isdone = 0;
 
 //print_r($record);
+
 $test = new todo();
+/*
 $test->id = '2';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
@@ -253,9 +261,12 @@ $test->createddate = '11/18';
 $test->duedate = '11/19';
 $test->message = 'so hard';
 $test->isdone = 3;
+*/
 //$test->message = 'I love you';
 //print_r($test);
-//$test-> delete ();
-$test-> save();
+$test->id = '8';
+$test-> delete ();
+
+//$test-> save();
 
 ?>
