@@ -88,10 +88,17 @@ Abstract class model {
     //protected $columnString;
     public function save()
     {   
-        
+        $modelName=static::$modelName;
+        $tableName = $modelName::table();
         $array = get_object_vars($this);
-        print_r($array);
-        $fliparray=array_flip($array);
+        //print_r($array);
+   
+        foreach ($array as $key =>$value){
+            if (empty($value)){
+                $array[$key] ='NULL';
+
+            }
+        }
         //echo"<br><br>";
        // print_r(array_flip($array));
         //echo"<br><br>";
@@ -110,23 +117,27 @@ Abstract class model {
         //print($valueString2);
         //echo"<br><br>";
         if ($this->id != '') {
-            $sql = $this->update();
+            $sql = $this->update($array,$tableName);
         } else {
             
-            $sql = $this->insert();
+            $sql = $this->insert($array,$tableName);
         }
-        
+
         $db = dbConn::getConnection();
-        $statement = $db->prepare($sql);
-        foreach($fliparray as $key => $value){
-            $statement->bindParam(":$value",$this->value);
-        }
+        try {
+            $statement = $db->prepare($sql);
+            /*foreach($fliparray as $key => $value){
+                $statement->bindParam(":$value",$this->value);
+            }*/
 
         //print($sql);
+    
+            $statement->execute();
+            //$id = $db->lastInsertId();
+        } catch (PDOException $e){
+            echo 'SQL error is:' . $e->getMessage();
+        } 
         
-
-        $statement->execute();
-        $id = $db->lastInsertId();
         //$tableName = get_called_class();
         //$this->tableName;
         
@@ -137,30 +148,23 @@ Abstract class model {
     }
       
     
-    private function insert() {
+    private function insert($array,$tableName) {
+     
+        $columnString = implode(',', array_keys($array));
 
-        $modelName=static::$modelName;
-        $tableName = $modelName::table();
-        $array = get_object_vars($this);
-      
-        //$columnString = implode(',', $array);
-        $columnString2 = implode(',', array_keys($array)); 
-        print($columnString2);
-        $valueString = implode(',', array_values($array));
-        //$valueString2 = ':'.implode(',:', array_flip($array));
-        print($valueString);
-        echo"<br><br>";
-        $sql = "INSERT INTO ". $tableName. " (" . $columnString2 . ") VALUES (" . $valueString.")";
+        $valueString = implode(',', $array);
+   
+
+        $sql = "INSERT INTO ". $tableName. " (" . $columnString . ") VALUES (".$valueString.")";
         print($sql);
-        //return $sql;
+        return $sql;
         echo 'I just inserted record' . $this->id;
         
+
     }
     
-    private function update() {
-        $modelName=static::$modelName;
-        $tableName = $modelName::table();
-        $array = get_object_vars($this);
+    private function update($array,$tableName) {
+
         $temp = '';
         $sql = 'UPDATE '.$tableName. ' SET ';
         foreach($array as $key=>$value){
@@ -171,7 +175,7 @@ Abstract class model {
             }
         }
         $sql .= ' WHERE id= '.$this->id;
-        print($sql);
+    
         /*
         foreach ($array as $key => $value) {
             if($key=='id'){
@@ -184,7 +188,7 @@ Abstract class model {
         }
         $sql .= ' WHERE id= '.$this->id;
         print($sql);
-        //$sql = 'UPDATE'.$this->tableName. 'SET'. $temp .' WHERE id = '.$this->id; //has a problem
+        //$sql = 'UPDATE '.$this->tableName. ' SET '. $temp .' WHERE id = '.$this->id; //has a problem
         //print($sql);*/
         return $sql;
         echo 'I just updated record' . $this->id;
@@ -260,13 +264,13 @@ class todo extends model {
 
 $test = new todo();
 
-//$test->id = '';
-$test->owneremail = 'jc134@njit.edu';
-$test->ownerid = 'jc1234';
+$test->id = '2';
+//$test->owneremail = 'jc134@njit.edu';
+//$test->ownerid = 'jc1234';
 $test->createddate = '11/18';
 $test->duedate = '11/19';
 $test->message = 'so hard';
-$test->isdone = 3;
+$test->isdone = '1';
 
 //$test->message = 'I love you';
 //print_r($test);
@@ -274,5 +278,8 @@ $test->isdone = 3;
 //$test-> delete ();
 
 $test-> save();
+print_r(todos::findAll());
+echo"<br><br>";
+print_r(todos::findOne(3));
 
 ?>
