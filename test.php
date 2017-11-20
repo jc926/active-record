@@ -91,6 +91,7 @@ Abstract class model {
         
         $array = get_object_vars($this);
         print_r($array);
+        $fliparray=array_flip($array);
         //echo"<br><br>";
        // print_r(array_flip($array));
         //echo"<br><br>";
@@ -108,19 +109,24 @@ Abstract class model {
         //echo"<br><br>";
         //print($valueString2);
         //echo"<br><br>";
-       
         if ($this->id != '') {
             $sql = $this->update();
         } else {
             
             $sql = $this->insert();
         }
-        //print($sql);
         
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
+        foreach($fliparray as $key => $value){
+            $statement->bindParam(":$value",$this->value);
+        }
+
+        //print($sql);
+        
+
         $statement->execute();
-        //$id = $db->lastInsertId();
+        $id = $db->lastInsertId();
         //$tableName = get_called_class();
         //$this->tableName;
         
@@ -141,7 +147,7 @@ Abstract class model {
         $columnString2 = implode(',', array_keys($array)); 
         print($columnString2);
         $valueString = implode(',', array_values($array));
-    
+        //$valueString2 = ':'.implode(',:', array_flip($array));
         print($valueString);
         echo"<br><br>";
         $sql = "INSERT INTO ". $tableName. " (" . $columnString2 . ") VALUES (" . $valueString.")";
@@ -254,7 +260,7 @@ class todo extends model {
 
 $test = new todo();
 
-$test->id = '8';
+//$test->id = '';
 $test->owneremail = 'jc134@njit.edu';
 $test->ownerid = 'jc1234';
 $test->createddate = '11/18';
