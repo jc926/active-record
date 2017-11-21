@@ -143,7 +143,7 @@ Abstract class model {
         
 
        // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
-        echo 'I just saved record: ' . $this->id;
+     //  echo 'I just saved record: ' . $this->id;
         
     }
       
@@ -156,9 +156,9 @@ Abstract class model {
    
 
         $sql = "INSERT INTO ". $tableName. " (" . $columnString . ") VALUES (".$valueString.")";
-        print($sql);
+    
         return $sql;
-        echo 'I just inserted record' . $this->id;
+    //    echo 'I just inserted record' . $this->id;
         
 
     }
@@ -191,7 +191,7 @@ Abstract class model {
         //$sql = 'UPDATE '.$this->tableName. ' SET '. $temp .' WHERE id = '.$this->id; //has a problem
         //print($sql);*/
         return $sql;
-        echo 'I just updated record' . $this->id;
+      //  echo 'I just updated record' . $this->id;
         
        
     }
@@ -211,7 +211,7 @@ Abstract class model {
         //print_r($array);
         //$result = $statement->fetchAll();
         //print_r($result);
-        echo 'I just deleted record' . $this->id;
+       // echo 'I just deleted record' . $this->id;
 
   	
        
@@ -265,25 +265,23 @@ class htmltag{
     }    
 
     public static function tablestart(){
-        return '<table style = "width:100%" border = "1">';
+        return '<table style = "width:100%" border = "1"collapse="2">';
     }
     public static function tableend(){
         return '</table><hr>';
     }
-    public static function headstart(){
-        return '<th>';
+    public static function tablehead($data){
+        return '<th>'. $data . '</th>';
     }
-    public static function headend(){
-        return '</th>';
-    }
-        public static function rowstart(){
+
+     public static function rowstart(){
         return '<tr>';
     }
     public static function rowend(){
         return '</tr>';
     }
     public static function tabledata($data){
-        return '<td>'.$data. '</td>';
+        return '<td>' . $data . '</td>';
     }    
     public static function bodystart(){
         return '<body>';
@@ -295,15 +293,24 @@ class htmltag{
 
 class htmltable{
     public static function Atable($input){
+       
         $table = htmltag:: tablestart();
+        foreach ($input as $row =>$line){
+            $table.= htmltag:: rowstart();
+            foreach ($line as $inrow =>$value){
+                $table.=htmltag::tablehead($inrow);
+            }
+            $table.=htmltag:: rowend();
+            break 1;
+        }
         foreach ($input as $row =>$line){
             $table.= htmltag:: rowstart();
             foreach ($line as $inrow =>$value){
                 $table.=htmltag::tabledata($value);
             }
-            $table.=thmltag:: rowend();
+            $table.=htmltag:: rowend();
         }
-        $table = htmltag::tableend();
+        $table .= htmltag::tableend();
         return $table;   
 
     }
@@ -335,11 +342,7 @@ $test->owneremail = '@njit.edu';
 //$test-> delete ();
 
 $test-> save();
-echo"<br><br>";
-print_r(todos::findAll());
-echo"<br><br>";
-print_r(todos::findOne(3));
-echo"<br><br>";
+print(htmltable::Atable(todos::findAll()));
 $newA= new account();
 $newA->fname ="'jie'";
 $newA->lname = "'cai'";
