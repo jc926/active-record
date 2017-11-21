@@ -256,18 +256,55 @@ class todo extends model {
     }*/
 }
 
+class htmltag{
+    public static function htmlstart(){
+        return '<html>';
+    }
+    public static function htmlend(){
+        return '</html>';
+    }    
+
+    public static function tablestart(){
+        return '<table style = "width:100%" border = "1">';
+    }
+    public static function tableend(){
+        return '</table>';
+    }
+    public static function headstart(){
+        return '<th>';
+    }
+    public static function headend(){
+        return '</th>';
+    }
+        public static function rowstart(){
+        return '<tr>';
+    }
+    public static function rowend(){
+        return '</tr>';
+    }
+    public static function tabledata($data){
+        return '<td>'.$data. '</td>';
+    }    
+    public static function bodystart(){
+        return '<body>';
+    }
+    public static function bodyend(){
+        return '</body>';
+    }
+}
+
 class htmlDis{
-    public static function Atable($array){
-        $table = '<table style = "width:100%" border = "1">';
-        foreach ($array as $row =>$inarray){
-            $table.= '<tr>';
-            foreach ($inarray as $inrow =>$value){
-                $table.='<th>' . $inrow .  '</th>';
+    public static function Atable($input){
+        $table = htmltag:: tablestart();
+        foreach ($input as $row =>$line){
+            $table.= htmltag:: rowstart();
+            foreach ($line as $inrow =>$value){
+                $table.=htmltag::tabledata($value);
             }
-            $table.= '</tr>';
-
+            $table.=thmltag:: rowend();
         }
-
+        $table = htmltag::tableend();
+        return $table;   
 
     }
 
@@ -298,10 +335,11 @@ $test->owneremail = '@njit.edu';
 //$test-> delete ();
 
 $test-> save();
+echo"<br><br>";
 print_r(todos::findAll());
 echo"<br><br>";
 print_r(todos::findOne(3));
-
+echo"<br><br>";
 $newA= new account();
 $newA->fname ="'jie'";
 $newA->lname = "'cai'";
