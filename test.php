@@ -264,13 +264,13 @@ class todo extends model {
 
 $test = new todo();
 
-$test->id = '2';
-//$test->owneremail = 'jc134@njit.edu';
+$test->id = '1';
+$test->owneremail = '@njit.edu';
 //$test->ownerid = 'jc1234';
-$test->createddate = '11/18';
-$test->duedate = '11/19';
-$test->message = 'so hard';
-$test->isdone = '1';
+//$test->createddate = '11/18';
+//$test->duedate = '11/19';
+//$test->message = "'so hard'";
+//$test->isdone = "'1'";
 
 //$test->message = 'I love you';
 //print_r($test);
@@ -282,4 +282,8 @@ print_r(todos::findAll());
 echo"<br><br>";
 print_r(todos::findOne(3));
 
+$newA= new account();
+$newA->fname ="'jie'";
+$newA->lname = "'cai'";
+$newA -> save();
 ?>
