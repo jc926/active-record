@@ -256,6 +256,26 @@ class todo extends model {
     }*/
 }
 
+class htmlDis{
+    public static function Atable($array){
+        $table = '<table style = "width:100%" border = "1">';
+        foreach ($array as $row =>$inarray){
+            $table.= '<tr>';
+            foreach ($inarray as $inrow =>$value){
+                $table.='<th>' . $inrow .  '</th>';
+            }
+            $table.= '</tr>';
+
+        }
+
+
+    }
+
+}
+
+
+
+
 //$record = new todos();
 //$record->message = 'some task';
 //$record->isdone = 0;
@@ -286,4 +306,6 @@ $newA= new account();
 $newA->fname ="'jie'";
 $newA->lname = "'cai'";
 $newA -> save();
+
+
 ?>
