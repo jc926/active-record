@@ -9,9 +9,10 @@ class account extends model{
     public $birthday;
     public $gender;
     public $password;
-    public function __construct(){
-        $this->tableName = 'accounts';
+    protected static $modelName = 'account';
+    public static function table(){
+        $tableName = 'accounts';
+        return $tableName;
     }
 }
-
 ?>

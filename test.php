@@ -268,7 +268,7 @@ class htmltag{
         return '<table style = "width:100%" border = "1">';
     }
     public static function tableend(){
-        return '</table>';
+        return '</table><hr>';
     }
     public static function headstart(){
         return '<th>';
@@ -293,7 +293,7 @@ class htmltag{
     }
 }
 
-class htmlDis{
+class htmltable{
     public static function Atable($input){
         $table = htmltag:: tablestart();
         foreach ($input as $row =>$line){
